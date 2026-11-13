@@ -183,7 +183,41 @@ Nhóm chấm mỗi kịch bản theo bốn câu hỏi rồi so:
   - **G8 (Gạt bỏ dễ dàng):** nút `[Hủy khiếu nại]` kèm hộp xác nhận.
 
 ## §4. Mức tự chủ  (chặng 4)
+| Tên Tool | Mức độ nhóm đặt | Ai duyệt? | Người duyệt thấy gì? | Quá hạn xử lý thì sao? |
+| yeu_cau_bang_chung | Tự làm | | | |
+| chuyen_truong_nhom | Tự làm | | | |
+| soan_hoan_tien | Cần người duyệt | Nhân viên CSKH / Trưởng nhóm | Lịch sử chat, ảnh chụp mô tả lúc đặt hàng, bằng chứng thực tế từ 2 bên | Tự động escalate lên cấp quản lý cao hơn; nếu quá SLA, hệ thống tạm hoãn đóng khiếu nại để tránh thiệt hại oan |
+| tu_choi_khieu_nai | Cần người duyệt | Nhân viên kiểm duyệt | Bản chụp mô tả lúc đặt hàng (snapshot) và mô tả hiện tại, lịch sử thay đổi của shop | Chuyển trạng thái sang "Chờ phản hồi khẩn", gửi cảnh báo SLA tới quản lý ca trực |
+| phat_shop | Cần Quản lý cấp cao | Quản lý vận hành sàn | Toàn bộ lịch sử vi phạm, mức độ ảnh hưởng diện rộng, doanh thu shop | Đưa vào hàng đợi ưu tiên cao nhất, tránh oan sai ảnh hưởng uy tín người bán hàng |
 
+
+| Tên Tool | Sai thì ai chịu gì | Đảo lại được không | Chờ người thì mất gì |
+| :--- | :--- | :--- | :--- |
+| yeu_cau_bang_chung | Làm phiền người dùng (nhận thông báo thừa/không đúng trọng tâm), không gây thiệt hại vật chất hay pháp lý. | Tin đã tới, có thể gửi lại mẫu bổ sung hoặc đính chính thông tin ngay lập tức. | Thao tác tự động hóa hoàn toàn, không cần con người duyệt ở bước gửi mẫu sơ bộ. |
+| chuyen_truong_nhom | Làm lệch luồng xử lý nội bộ hoặc làm phiền trưởng nhóm một hồ sơ thừa, hệ thống tự động định tuyến lại được. | Được, hồ sơ chuyển đi có thể điều hướng hoặc rút lại/chuyển tiếp cho đúng bộ phận phụ trách dễ dàng. | Quá trình điều phối nội bộ diễn ra tự động trong hệ thống phần mềm. |
+| soan_hoan_tien| Nếu AI gọi nhầm: Sàn hoặc người bán mất tiền lẫn hàng oan; nhân viên/sàn chịu thiệt hại tài chính trực tiếp và khiếu nại nội bộ. | Rất khó: Tiền đã chuyển thẳng về tài khoản người mua, việc đòi lại cực kỳ phức tạp và dễ sinh tranh chấp pháp lý. | Mất thời gian: Chờ nhân viên rà soát mất thêm từ vài giờ đến 24h; người mua có thể phàn nàn vì chậm nhận tiền hoàn. |
+| tu_choi_khieu_nai | Nếu AI gọi nhầm: Người mua mất trắng tiền và quyền lợi, chịu ấm ức vì mua phải hàng không đúng mô tả, sụt giảm niềm tin vào nền tảng. | Rất khó: Tiền đã giải ngân cho người bán và mã khiếu nại đã bị đóng. Muốn lật lại phải mở lại ngoại lệ, tốn nhiều thao tác vận hành thủ công. | Mất thời gian: Người mua phải chờ đợi lâu hơn để hệ thống rà soát lịch sử (snapshot) và nhân viên thẩm định kỹ lưỡng. |
+| phat_shop | Nếu AI tự phạt nhầm: Shop bị ảnh hưởng nghiêm trọng về doanh thu và uy tín, có nguy cơ kiện tụng hoặc làm tổn hại thương hiệu sàn trên diện rộng. | Khó: Điểm phạt uy tín và việc khoá shop đã ghi nhận vào hệ thống ảnh hưởng trực tiếp đến hoạt động kinh doanh, việc gỡ bỏ rất phức tạp. | Mất nguồn lực: Tốn thời gian và nhân sự cấp cao để thẩm định lỗi trước khi đưa ra quyết định kỷ luật người bán hàng chính xác. |
+
+
+Tool khó xếp nhất và tranh luận trong nhóm: soan_hoan_tien
+Góc nhìn các thành viên:
+- Đề xuất để AI tự động thực thi các case có độ tự tin cao ($>90\%$) để giảm tải $80\%$ khối lượng công việc cho nhân sự, tối ưu trải nghiệm tức thì. Giá phải trả: Chấp nhận tỷ lệ sai sót nhỏ, đổi lại tốc độ cực nhanh.
+- Kiên quyết bắt buộc human-in-the-loop cho mọi hành động liên quan đến dòng tiền. Giá phải trả: Chi phí nhân sự vận hành đắt đỏ, người dùng phải chờ đợi.
+Quyết định chốt của nhóm: Đưa soan_hoan_tien vào nhóm 'Cần người duyệt', nhưng tách nhỏ tool thành bước Soạn thảo dự thảo tự động (Draft) để nhân viên chỉ cần bấm duyệt thay vì phải gõ lại từ đầu, tối ưu hóa thời gian xử lý của con người.
+
+
+Thử nghiệm mức tự chủ trên 2 kịch bản đắt nhất và 1 kịch bản bình thường:
+| Kịch bản kiểm thử | Sai có bị chặn không? | Còn việc nào làm khi lẽ ra phải hỏi? | Người dùng bình thường có chờ vô ích không? |
+| :--- | :--- | :--- | :--- |
+| K3 (Nồi chiên 6L/5L) | Có. Chặn được việc AI gọi `soan_hoan_tien` nhầm cho người bán đúng. | Bắt buộc hệ thống chuyển sang yêu cầu bổ sung ảnh đo đạc thực tế/tem mác. | Có độ trễ nhất định để nhân viên rà soát, nhưng đảm bảo công bằng cho người bán. |
+| K4 (Tai nghe ANC shop sửa mô tả) | Có. Chặn được việc AI gọi `tu_choi_khieu_nai` do so nhầm với mô tả hiện tại. | Kích hoạt luật đối chiếu bản chụp lúc đặt hàng (snapshot) để vạch trần hành vi shop. | Chờ nhân viên đối chiếu lịch sử để bảo vệ quyền lợi người mua. |
+| K6 (Giày fake, đòi khóa shop) | Có. Chặn được việc AI tự ý gọi `phat_shop` hoặc hứa suông dựa trên lời một phía. | Vẫn làm việc hữu ích: Hướng dẫn trả hàng an toàn cho đơn và chuyển hồ sơ qua `chuyen_truong_nhom`. | Người mua vẫn nhận ngay hướng dẫn thao tác trả hàng bảo vệ thời hạn, không bị bỏ lơ. |
+
+Tool tách bước:
+Tách soan_hoan_tien thành 2 bước: 
+1. chuan_bi_hoan_tien (AI phân tích, thu dữ liệu số tiền, tài khoản nhận,... ). 
+2. thuc_thi_hoan_tien (Nhân viên/Quản lý kiểm tra và bấm nút thực thi). |
 ## §5. Prototype  (chặng 5)
 
 ## §6. Tốt là gì  (chặng 6 — nhẹ, bỏ được nếu thiếu giờ)
