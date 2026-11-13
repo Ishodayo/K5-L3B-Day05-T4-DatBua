@@ -43,7 +43,7 @@ Hôm nay: **13/11/2026**. Người mua: **Lê Thu Hà** (tài khoản giả).
 | Mã đơn (dựng) | Sản phẩm · Shop | Ngày nhận | Mô tả **lúc đặt** (bản chụp) | Mô tả **hiện tại** | Ghi chú |
 |---|---|---|---|---|---|
 | D01 | Áo thun nam · Shop ÁoXinh | 11/11 | "Áo thun cotton, size L" | như cũ | Trong chat đơn, shop đã nhắn: "Shop xin lỗi, bên mình gửi nhầm size M" |
-| D02 | Nồi chiên không dầu · Shop BếpViệt | 10/11 | "Dung tích **6 lít** (tổng dung tích nồi). Rổ chiên 5 lít" | như cũ | Tem trên thân nồi ghi "6.0L" |
+| D02 | Nồi chiên không dầu · Shop BếpViệt | 10/11 | "Dung tích **6 lít** (tổng dung tích nồi). Rổ chiên 5 lít" | như cũ | Ảnh sản phẩm shop đăng: tem trên thân nồi ghi "6.0L" |
 | D03 | Tai nghe bluetooth · Shop ÂmThanhPro | 09/11 | "**Chống ồn chủ động ANC**" | "Chống ồn **thụ động**" — sửa lúc 10/11, **sau khi** đơn đã đặt | Người mua mua ngày 07/11 |
 | D04 | Giày thể thao "chính hãng" · Shop SneakerHN | 12/11 | "Hàng chính hãng, có hộp, tem" | như cũ | — |
 | D05 | Bình giữ nhiệt 500ml · Shop NhàXinh | 12/11 | "Màu xanh mint, 500ml" | như cũ | Đơn mới nhất, cùng ngày với D04 |
@@ -122,64 +122,65 @@ Nhóm chấm mỗi kịch bản theo bốn câu hỏi rồi so:
 
 ### 1. Kịch bản K3 — Hoàn cho xong khi người bán đúng (Đơn D02: Nồi chiên 6L / rổ 5L)
 
-- **Lựa chọn cách xử lý khi không chắc:** Chọn **Trả lời kèm giới hạn + Mở luồng đối chất/chuyển nhân viên** (Đã loại phương án *Tự động gọi `soan_hoan_tien` ngay* vì gây thất thoát tài chính không đảo được cho người bán, và loại phương án *Từ chối thẳng thừng* vì dễ làm người mua ức chế khi chưa rõ ý).
-
 - **Câu AI nói (nguyên văn):**
 
-  > "Theo mô tả lúc bạn đặt đơn D02, nồi ghi '6 lít tổng dung tích, rổ chiên 5 lít' và tem mác thực tế khớp đúng thông số này. Hệ thống hiện chưa đủ căn cứ để kết luận hàng sai mô tả. Bạn có muốn gửi thêm ảnh đo đạc thực tế để chuyển nhân viên xem xét, hay giữ nguyên yêu cầu?"
+  > "Theo mô tả lúc bạn đặt đơn D02, nồi ghi '6 lít tổng dung tích, rổ chiên 5 lít', và tem trên thân nồi trong ảnh sản phẩm của shop ghi 6.0L. Hiện mình chưa đủ căn cứ để kết luận hàng sai mô tả. Bạn có thể gửi thêm ảnh đo thực tế, hoặc yêu cầu nhân viên Shopee xem xét."
 
-- **Cái người dùng thấy ngoài câu chữ:**
-  - **Độ chắc chắn của AI:** Trung bình / Cảnh báo trung lập.
-  - **Bằng chứng cốt lõi:** Thẻ so sánh dữ liệu trực quan gồm 2 dòng:
-    1. Mô tả lúc đặt: 6L tổng (rổ 5L).
-    2. Tem nhà sản xuất trên ảnh khách gửi: 6.0L.
-  - **Các nút điều khiển:**
-    - `[Bổ sung ảnh đo thực tế]`
-    - `[Yêu cầu nhân viên xử lý thủ công]`
-    - Hoàn toàn không có nút `[Hoàn tiền ngay]`.
+- **Người dùng thấy gì:**
+  - Nhãn độ chắc: "Chưa đủ căn cứ kết luận sai mô tả".
+  - Thẻ so sánh 3 dòng: Mô tả lúc đặt: 6L tổng (rổ 5L) · Tem trên ảnh sản phẩm của shop: 6.0L · Khiếu nại: đo lòng nồi 5L.
+  - Nút: `[Bổ sung ảnh đo thực tế]` · `[Yêu cầu nhân viên xem xét]`.
 
-- **Bước người dùng làm tiếp & Hậu quả nếu không làm gì:**
-  - Người dùng bấm bổ sung ảnh hoặc chuyển người.
-  - Nếu họ bỏ qua, khiếu nại giữ nguyên trạng thái chờ đối chứng, không bên nào bị trừ tiền tự động.
+- **Người dùng làm gì tiếp:** Bổ sung ảnh (`yeu_cau_bang_chung`) hoặc yêu cầu nhân viên (`chuyen_truong_nhom`). Nếu không làm gì, khiếu nại giữ trạng thái chờ đối chứng, không bên nào bị trừ tiền.
 
-- **Ai được báo, sau bao lâu:** Gửi thông báo ngay cho Người bán về việc khiếu nại đang được hệ thống xác minh, kèm thời hạn 48 giờ để người bán gửi ảnh chụp đóng gói gốc nếu cần.
+- **Ai được báo, sau bao lâu:** Người bán được báo ngay qua `yeu_cau_bang_chung`, có 48 giờ để phản hồi. Trưởng nhóm nhận hồ sơ qua `chuyen_truong_nhom` ngay khi người mua yêu cầu nhân viên.
 
-- **Phân loại lỗi:** Thuộc **Lỗi ngữ cảnh (Context Error)** — Hệ thống chạy hoàn toàn đúng thiết kế và dữ liệu, nhưng ngữ cảnh thực tế (khách nhầm giữa dung tích tổng và dung tích rổ chiên) không thể giải quyết bằng suy luận tự động mà cần sự minh bạch dữ liệu để người dùng tự nhận ra. Do đó, không thể chỉ sửa câu chữ (như xin lỗi suông) mà phải thay đổi hoàn toàn thiết kế bằng thẻ đối chiếu dữ liệu.
+- **Quyết định:** Chọn **trả lời kèm giới hạn**.
+  - Loại *hỏi lại*: hỏi mà không đưa căn cứ thì người mua không biết vì sao khiếu nại chưa được chấp nhận.
+  - Loại *chuyển người ngay*: dữ liệu đã đủ để người mua tự đối chiếu; chuyển ngay làm người mua chờ và tốn nhân viên.
 
-- **Áp dụng nguyên tắc HAX/PAIR (trỏ vào prototype ở Chặng 5):**
-  - **G11 (Giải thích vì sao) & PAIR Explainability:** Hiển thị trực tiếp thẻ so sánh "Mô tả lúc đặt" ngay dưới khung chat để người mua tự nhìn thấy bằng chứng căn cứ của AI.
-  - **G10 (Thu hẹp phạm vi khi nghi ngờ):** Từ chối tự động hoàn tiền khi phát hiện thông số dữ liệu khớp nhau, không làm liều.
+- **Loại lỗi:** **Lỗi ngữ cảnh** — hệ thống chạy đúng dữ liệu, nhưng người mua nhầm giữa dung tích tổng và dung tích rổ chiên.
+  - Cách nói: không xin lỗi, không đổ lỗi cho khách; chỉ trình bày căn cứ trung lập.
+  - Cách sửa: thẻ đối chiếu mô tả lúc đặt.
+
+- **Nguyên tắc HAX/PAIR:**
+  - **G11 (Giải thích vì sao):** thẻ so sánh 3 dòng ngay dưới tin nhắn của AI.
+  - **G10 (Thu hẹp phạm vi khi nghi ngờ):** nhãn "Chưa đủ căn cứ" và nút `[Bổ sung ảnh đo thực tế]`.
 
 ---
 
 ### 2. Kịch bản K4 — So nhầm với mô tả đã bị sửa (Đơn D03: Tai nghe chống ồn ANC)
 
-- **Lựa chọn cách xử lý khi không chắc:** Chọn **Dừng tự động và chuyển nhân viên xử lý thủ công kèm lịch sử thay đổi** (Đã loại phương án *Tự động gọi `tu_choi_khieu_nai`* dựa vào mô tả hiện tại vì làm người mua mất trắng quyền lợi, và loại phương án *Mặc định tin khách hoàn tiền ngay* vì làm người bán mất tiền oan khi họ không sai ở thời điểm bán).
-
 - **Câu AI nói (nguyên văn):**
 
-  > "Sản phẩm trong đơn D03 của bạn có sự khác biệt: mô tả hiện tại ghi 'chống ồn thụ động', nhưng mô tả gốc tại thời điểm bạn đặt hàng ngày 07/11 ghi rõ 'chống ồn chủ động (ANC)'. Vì thông tin đã được shop chỉnh sửa sau khi bán, mình đã tạm dừng xử lý tự động và chuyển hồ sơ này cho nhân viên Shopee xem xét cùng cả hai phiên bản mô tả."
+  > "Mô tả hiện tại của sản phẩm trong đơn D03 ghi 'chống ồn thụ động', nhưng mô tả lúc bạn đặt hàng ngày 07/11 ghi 'chống ồn chủ động (ANC)'. Vì mô tả đã được sửa sau khi bán, mình chưa thể tự kết luận và đã chuyển hồ sơ cho nhân viên Shopee xem xét cùng cả hai phiên bản mô tả. Shop cũng được thông báo để phản hồi trong 48 giờ."
 
-- **Cái người dùng thấy ngoài câu chữ:**
-  - **Độ chắc chắn của AI:** Cảnh báo rủi ro hệ thống / Phát hiện thay đổi dữ liệu.
-  - **Bằng chứng cốt lõi:** Biểu tượng lịch sử chỉnh sửa (*Version History Badge*), hiển thị 2 mốc:
-    1. 07/11 - Lúc đặt: ANC.
-    2. 10/11 - Sau khi bán: Thụ động.
-  - **Các nút điều khiển:**
-    - `[Đang chờ nhân viên xử lý (Dự kiến phản hồi trong 24h)]`
-    - `[Hủy khiếu nại]`
+- **Người dùng thấy gì:**
+  - Nhãn cảnh báo: "Mô tả bị sửa sau khi bán".
+  - Huy hiệu lịch sử chỉnh sửa 2 mốc: 07/11 (lúc đặt): ANC · 10/11 (sau khi bán): Thụ động.
+  - Trạng thái: `[Đang chờ nhân viên xử lý (Dự kiến phản hồi trong 24h)]`.
+  - Nút: `[Hủy khiếu nại]` → hộp xác nhận "Huỷ khiếu nại thì tiền đơn D03 sẽ chuyển cho shop và không mở lại được." `[Quay lại]` `[Xác nhận huỷ]`.
 
-- **Bước người dùng làm tiếp & Hậu quả nếu không làm gì:**
-  - Người dùng không cần thao tác thêm vì hệ thống đã tự động khóa luồng và chuyển ca cho nhân viên người thật.
-  - Nếu không làm gì, đơn hàng được bảo lưu ở trạng thái an toàn.
+- **Người dùng làm gì tiếp:** Không cần thao tác thêm; hồ sơ đã chuyển nhân viên. Nếu không làm gì, khiếu nại giữ trạng thái chờ xử lý, không bên nào bị trừ tiền.
 
-- **Ai được báo, sau bao lâu:** Gửi cảnh báo ưu tiên cho đội ngũ **Trưởng nhóm/Kiểm duyệt sàn** ngay lập tức vì phát hiện gian lận thay đổi thông tin sản phẩm sau khi giao dịch thành công.
+- **Ai được báo, sau bao lâu:**
+  - Trưởng nhóm/Kiểm duyệt sàn: ngay lập tức, qua `chuyen_truong_nhom`, kèm cả hai phiên bản mô tả.
+  - Người bán: ngay, qua `yeu_cau_bang_chung`, có 48 giờ để phản hồi.
 
-- **Phân loại lỗi:** Thuộc **Lỗi hệ thống / Dữ liệu bất đối xứng (System/Data Error)** — Nếu AI xử lý theo dữ liệu hiện tại (mô tả đã sửa) thì đó là lỗi nghiêm trọng của mô hình khi không phân biệt được mốc thời gian giao dịch. **Lỗi này sửa câu chữ hoàn toàn không cứu được** (nếu chỉ đổi câu xin lỗi thì khách vẫn mất tiền), mà **chỉ thiết kế mới cứu được** (thiết kế cơ chế lưu vết `snapshot` dữ liệu lúc đặt hàng để AI bắt buộc phải đối chiếu đúng phiên bản lịch sử).
+- **Quyết định:** Chọn **dừng và chuyển người**.
+  - Loại *hỏi lại*: bằng chứng đã rõ, hỏi thêm chỉ làm người mua chờ.
+  - Loại *trả lời kèm giới hạn*: ca này dẫn tới quyết định hoàn tiền hay không, AI không có quyền tự quyết (§1).
 
-- **Áp dụng nguyên tắc HAX/PAIR (trỏ vào prototype ở Chặng 5):**
-  - **G1 (Làm rõ hệ thống làm được gì):** Hệ thống tự động quét và nhận diện lịch sử thay đổi mô tả của shop để bảo vệ người mua khỏi bẫy sửa đổi ngầm.
-  - **PAIR Errors + Graceful Failure:** Xây dựng một đường lui an toàn (chuyển nhân viên ngay lập tức thay vì từ chối nhầm) khi phát hiện sự bất thường về dữ liệu phía người bán.
+- **Loại lỗi:** **Lỗi hệ thống** — AI đối chiếu với mô tả hiện tại thay vì mô tả lúc đặt.
+  - Cách nói: sàn nhận trách nhiệm; nếu đã lỡ từ chối thì xin lỗi và mở lại hồ sơ: "Shopee xin lỗi vì trước đó đã đối chiếu nhầm với mô tả đã bị sửa. Khiếu nại của bạn đã được mở lại và chuyển cho nhân viên xem xét."
+  - Cách sửa: lưu snapshot mô tả lúc đặt.
+
+- **Lỗi sửa câu chữ không cứu được:** Nếu AI so với mô tả hiện tại, câu chữ nào cũng không ngăn được việc khiếu nại bị đóng và người mua mất tiền. Thiết kế cứu: hệ thống lưu `snapshot` mô tả lúc đặt hàng, AI bắt buộc đối chiếu với bản này, và luôn chuyển người khi phát hiện mô tả bị sửa sau khi bán.
+
+- **Nguyên tắc HAX/PAIR:**
+  - **G11 (Giải thích vì sao):** huy hiệu lịch sử chỉnh sửa 2 mốc ngay dưới tin nhắn của AI.
+  - **PAIR Errors + Graceful Failure:** trạng thái `[Đang chờ nhân viên xử lý]`.
+  - **G8 (Gạt bỏ dễ dàng):** nút `[Hủy khiếu nại]` kèm hộp xác nhận.
 
 ## §4. Mức tự chủ  (chặng 4)
 
