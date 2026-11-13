@@ -23,7 +23,7 @@
 **3 việc tính năng KHÔNG làm:**
 
 1. **Không tự quyết hoàn tiền hay đóng khiếu nại thay sàn**, vì `soan_hoan_tien` và `tu_choi_khieu_nai` đều khó đảo và luôn làm một bên thua tiền, nên phải nghe đủ hai bên trong thời hạn phản hồi của người bán rồi mới quyết.
-2. **Không xử phạt shop hay kết luận hàng giả**, vì `phat_shop` ảnh hưởng mọi đơn và mọi khách của shop, còn nghi hàng giả cần bộ phận chuyên trách giám định chứ không thuộc luồng "không đúng mô tả".
+2. **Không tự xử phạt shop hay kết luận hàng giả**, vì `phat_shop` ảnh hưởng mọi đơn và mọi khách của shop, còn nghi hàng giả cần bộ phận chuyên trách giám định; AI chỉ được đề xuất cho quản lý duyệt.
 3. **Không chia sẻ số điện thoại, địa chỉ giữa hai bên và không làm trung gian cho thoả thuận ngoài sàn**, vì đó là dữ liệu cá nhân và giao dịch ngoài sàn không được sàn bảo vệ, dễ bị lợi dụng để lừa.
 
 ---
@@ -183,41 +183,62 @@ Nhóm chấm mỗi kịch bản theo bốn câu hỏi rồi so:
   - **G8 (Gạt bỏ dễ dàng):** nút `[Hủy khiếu nại]` kèm hộp xác nhận.
 
 ## §4. Mức tự chủ  (chặng 4)
+
+### 4.1 Mức tự chủ của từng tool
+
 | Tên Tool | Mức độ nhóm đặt | Ai duyệt? | Người duyệt thấy gì? | Quá hạn xử lý thì sao? |
-| yeu_cau_bang_chung | Tự làm | | | |
-| chuyen_truong_nhom | Tự làm | | | |
-| soan_hoan_tien | Cần người duyệt | Nhân viên CSKH / Trưởng nhóm | Lịch sử chat, ảnh chụp mô tả lúc đặt hàng, bằng chứng thực tế từ 2 bên | Tự động escalate lên cấp quản lý cao hơn; nếu quá SLA, hệ thống tạm hoãn đóng khiếu nại để tránh thiệt hại oan |
-| tu_choi_khieu_nai | Cần người duyệt | Nhân viên kiểm duyệt | Bản chụp mô tả lúc đặt hàng (snapshot) và mô tả hiện tại, lịch sử thay đổi của shop | Chuyển trạng thái sang "Chờ phản hồi khẩn", gửi cảnh báo SLA tới quản lý ca trực |
-| phat_shop | Cần Quản lý cấp cao | Quản lý vận hành sàn | Toàn bộ lịch sử vi phạm, mức độ ảnh hưởng diện rộng, doanh thu shop | Đưa vào hàng đợi ưu tiên cao nhất, tránh oan sai ảnh hưởng uy tín người bán hàng |
+| :--- | :--- | :--- | :--- | :--- |
+| `yeu_cau_bang_chung` | Tự làm | — | — | — |
+| `chuyen_truong_nhom` | Tự làm | — | — | — |
+| `soan_hoan_tien` | Cần người duyệt | Nhân viên CSKH / Trưởng nhóm | Lịch sử chat, ảnh chụp mô tả lúc đặt hàng, bằng chứng thực tế từ 2 bên | Tự động escalate lên cấp quản lý cao hơn; nếu quá SLA, hệ thống tạm hoãn đóng khiếu nại để tránh thiệt hại oan |
+| `tu_choi_khieu_nai` | Cần người duyệt | Nhân viên kiểm duyệt | Bản chụp mô tả lúc đặt hàng (snapshot) và mô tả hiện tại, lịch sử thay đổi của shop | Chuyển trạng thái sang "Chờ phản hồi khẩn", gửi cảnh báo SLA tới quản lý ca trực |
+| `phat_shop` | Cần người duyệt (cấp quản lý) | Quản lý vận hành sàn | Toàn bộ lịch sử vi phạm, mức độ ảnh hưởng diện rộng, doanh thu shop | Đưa vào hàng đợi ưu tiên cao nhất, tránh oan sai ảnh hưởng uy tín người bán hàng |
 
+### 4.2 Lý do theo cost-of-error
 
-| Tên Tool | Sai thì ai chịu gì | Đảo lại được không | Chờ người thì mất gì |
-| :--- | :--- | :--- | :--- |
-| yeu_cau_bang_chung | Làm phiền người dùng (nhận thông báo thừa/không đúng trọng tâm), không gây thiệt hại vật chất hay pháp lý. | Tin đã tới, có thể gửi lại mẫu bổ sung hoặc đính chính thông tin ngay lập tức. | Thao tác tự động hóa hoàn toàn, không cần con người duyệt ở bước gửi mẫu sơ bộ. |
-| chuyen_truong_nhom | Làm lệch luồng xử lý nội bộ hoặc làm phiền trưởng nhóm một hồ sơ thừa, hệ thống tự động định tuyến lại được. | Được, hồ sơ chuyển đi có thể điều hướng hoặc rút lại/chuyển tiếp cho đúng bộ phận phụ trách dễ dàng. | Quá trình điều phối nội bộ diễn ra tự động trong hệ thống phần mềm. |
-| soan_hoan_tien| Nếu AI gọi nhầm: Sàn hoặc người bán mất tiền lẫn hàng oan; nhân viên/sàn chịu thiệt hại tài chính trực tiếp và khiếu nại nội bộ. | Rất khó: Tiền đã chuyển thẳng về tài khoản người mua, việc đòi lại cực kỳ phức tạp và dễ sinh tranh chấp pháp lý. | Mất thời gian: Chờ nhân viên rà soát mất thêm từ vài giờ đến 24h; người mua có thể phàn nàn vì chậm nhận tiền hoàn. |
-| tu_choi_khieu_nai | Nếu AI gọi nhầm: Người mua mất trắng tiền và quyền lợi, chịu ấm ức vì mua phải hàng không đúng mô tả, sụt giảm niềm tin vào nền tảng. | Rất khó: Tiền đã giải ngân cho người bán và mã khiếu nại đã bị đóng. Muốn lật lại phải mở lại ngoại lệ, tốn nhiều thao tác vận hành thủ công. | Mất thời gian: Người mua phải chờ đợi lâu hơn để hệ thống rà soát lịch sử (snapshot) và nhân viên thẩm định kỹ lưỡng. |
-| phat_shop | Nếu AI tự phạt nhầm: Shop bị ảnh hưởng nghiêm trọng về doanh thu và uy tín, có nguy cơ kiện tụng hoặc làm tổn hại thương hiệu sàn trên diện rộng. | Khó: Điểm phạt uy tín và việc khoá shop đã ghi nhận vào hệ thống ảnh hưởng trực tiếp đến hoạt động kinh doanh, việc gỡ bỏ rất phức tạp. | Mất nguồn lực: Tốn thời gian và nhân sự cấp cao để thẩm định lỗi trước khi đưa ra quyết định kỷ luật người bán hàng chính xác. |
+| Tên Tool | Sai thì ai chịu gì | Đảo lại được không | Chờ người thì mất gì | Phương án đã cân nhắc và vì sao loại |
+| :--- | :--- | :--- | :--- | :--- |
+| `yeu_cau_bang_chung` | Làm phiền người dùng (nhận thông báo thừa/không đúng trọng tâm), không gây thiệt hại vật chất hay pháp lý. | Không rút lại được tin đã gửi, chỉ gửi thêm tin đính chính. | Người mua phải chờ lâu mới biết còn thiếu bằng chứng gì, có thể trôi qua hạn trả hàng 7 ngày; người bán chậm nhận yêu cầu phản hồi. | *Cần người duyệt*: loại vì sai chỉ gây phiền, còn chờ duyệt làm chậm mọi khiếu nại. Kèm luật: chỉ gửi khi đã biết đúng đơn (chặn K2). |
+| `chuyen_truong_nhom` | Làm lệch luồng xử lý nội bộ hoặc làm phiền trưởng nhóm một hồ sơ thừa, hệ thống tự động định tuyến lại được. | Được, hồ sơ chuyển đi có thể điều hướng hoặc rút lại/chuyển tiếp cho đúng bộ phận phụ trách dễ dàng. | Ca khó (K4, K6) bị kẹt ở AI, người mua không gặp được người thật đúng lúc cần. | *Cần người duyệt*: loại vì đây là đường lui an toàn; bắt duyệt việc chuyển người thì mất ý nghĩa của đường lui. |
+| `soan_hoan_tien` | Nếu AI gọi nhầm: Sàn hoặc người bán mất tiền lẫn hàng oan; nhân viên/sàn chịu thiệt hại tài chính trực tiếp và khiếu nại nội bộ. | Rất khó: Tiền đã chuyển thẳng về tài khoản người mua, việc đòi lại cực kỳ phức tạp và dễ sinh tranh chấp pháp lý. | Mất thời gian: Chờ nhân viên rà soát mất thêm từ vài giờ đến 24h; người mua có thể phàn nàn vì chậm nhận tiền hoàn. | *Tự làm khi độ tự tin cao*: loại vì sai là mất tiền khó đảo (K3, K5, K11). *Cấm*: loại vì sàn vẫn cần hoàn nhanh cho ca rõ ràng như K1. |
+| `tu_choi_khieu_nai` | Nếu AI gọi nhầm: Người mua mất trắng tiền và quyền lợi, chịu ấm ức vì mua phải hàng không đúng mô tả, sụt giảm niềm tin vào nền tảng. | Rất khó: Tiền đã giải ngân cho người bán và mã khiếu nại đã bị đóng. Muốn lật lại phải mở lại ngoại lệ, tốn nhiều thao tác vận hành thủ công. | Mất thời gian: Người mua phải chờ đợi lâu hơn để hệ thống rà soát lịch sử (snapshot) và nhân viên thẩm định kỹ lưỡng. | *Tự làm*: loại vì người mua không tự phát hiện được khi bị từ chối sai (K4). *Cấm*: loại vì sàn vẫn cần đóng được các ca người bán đúng (K3, K11). |
+| `phat_shop` | Nếu AI tự phạt nhầm: Shop bị ảnh hưởng nghiêm trọng về doanh thu và uy tín, có nguy cơ kiện tụng hoặc làm tổn hại thương hiệu sàn trên diện rộng. | Khó: Điểm phạt uy tín và việc khoá shop đã ghi nhận vào hệ thống ảnh hưởng trực tiếp đến hoạt động kinh doanh, việc gỡ bỏ rất phức tạp. | Mất nguồn lực: Tốn thời gian và nhân sự cấp cao để thẩm định lỗi trước khi đưa ra quyết định kỷ luật người bán hàng chính xác. | *Tự làm*: loại vì ảnh hưởng cả shop, không đảo được. *Cấm*: xem 4.3. |
 
+### 4.3 Tool khó xếp nhất: `phat_shop`
 
-Tool khó xếp nhất và tranh luận trong nhóm: soan_hoan_tien
-Góc nhìn các thành viên:
-- Đề xuất để AI tự động thực thi các case có độ tự tin cao ($>90\%$) để giảm tải $80\%$ khối lượng công việc cho nhân sự, tối ưu trải nghiệm tức thì. Giá phải trả: Chấp nhận tỷ lệ sai sót nhỏ, đổi lại tốc độ cực nhanh.
-- Kiên quyết bắt buộc human-in-the-loop cho mọi hành động liên quan đến dòng tiền. Giá phải trả: Chi phí nhân sự vận hành đắt đỏ, người dùng phải chờ đợi.
-Quyết định chốt của nhóm: Đưa soan_hoan_tien vào nhóm 'Cần người duyệt', nhưng tách nhỏ tool thành bước Soạn thảo dự thảo tự động (Draft) để nhân viên chỉ cần bấm duyệt thay vì phải gõ lại từ đầu, tối ưu hóa thời gian xử lý của con người.
+**Góc nhìn các thành viên:**
 
+- **Nam — Cấm:** AI không có khả năng xác minh vi phạm (hàng giả cần giám định) và không chịu được trách nhiệm khi phạt sai một shop. Giá phải trả: mọi đề nghị xử phạt phải đi đường thủ công qua bộ phận chuyên trách; trong lúc chờ, shop vi phạm thật vẫn tiếp tục bán (K6), và hồ sơ người mua gửi phải nhập lại từ đầu.
+- **Lân, Duy — Cần người duyệt:** AI có thể đề xuất xử phạt nếu thông tin đầy đủ (bằng chứng từ hai bên, lịch sử vi phạm), quản lý duyệt trước khi thực hiện. Giá phải trả: AI có thể đề xuất phạt dựa trên lời một phía, như lời doạ bóc phốt (K5) hay tiếng xấu của shop (K11); nếu người duyệt bấm cho nhanh thì shop đúng bị phạt oan.
 
-Thử nghiệm mức tự chủ trên 2 kịch bản đắt nhất và 1 kịch bản bình thường:
+**Quyết định chốt của nhóm:** Đặt `phat_shop` ở mức **Cần người duyệt (cấp quản lý)**, kèm luật:
+- AI chỉ soạn đề xuất khi hồ sơ có bằng chứng của cả hai bên và người bán đã hết thời hạn phản hồi 48 giờ; lời doạ và lịch sử khiếu nại không được tính là căn cứ.
+- AI không bao giờ hứa với người mua là shop sẽ bị phạt (giữ đúng K6 ở §2).
+- Người duyệt là quản lý vận hành sàn, không phải nhân viên xử lý khiếu nại thường.
+
+Nhóm chọn cách này thay vì cấm vì luật trên đã chặn được nỗi lo của Nam (AI không tự quyết, không dựa lời một phía), mà vẫn giữ được hồ sơ AI đã thu thập cho người duyệt.
+
+### 4.4 Thử mức tự chủ trên 2 kịch bản đắt nhất và 1 kịch bản bình thường
+
 | Kịch bản kiểm thử | Sai có bị chặn không? | Còn việc nào làm khi lẽ ra phải hỏi? | Người dùng bình thường có chờ vô ích không? |
 | :--- | :--- | :--- | :--- |
-| K3 (Nồi chiên 6L/5L) | Có. Chặn được việc AI gọi `soan_hoan_tien` nhầm cho người bán đúng. | Bắt buộc hệ thống chuyển sang yêu cầu bổ sung ảnh đo đạc thực tế/tem mác. | Có độ trễ nhất định để nhân viên rà soát, nhưng đảm bảo công bằng cho người bán. |
-| K4 (Tai nghe ANC shop sửa mô tả) | Có. Chặn được việc AI gọi `tu_choi_khieu_nai` do so nhầm với mô tả hiện tại. | Kích hoạt luật đối chiếu bản chụp lúc đặt hàng (snapshot) để vạch trần hành vi shop. | Chờ nhân viên đối chiếu lịch sử để bảo vệ quyền lợi người mua. |
-| K6 (Giày fake, đòi khóa shop) | Có. Chặn được việc AI tự ý gọi `phat_shop` hoặc hứa suông dựa trên lời một phía. | Vẫn làm việc hữu ích: Hướng dẫn trả hàng an toàn cho đơn và chuyển hồ sơ qua `chuyen_truong_nhom`. | Người mua vẫn nhận ngay hướng dẫn thao tác trả hàng bảo vệ thời hạn, không bị bỏ lơ. |
+| K3 (Nồi chiên 6L/5L) | Có. Chặn được việc AI gọi `soan_hoan_tien` nhầm cho người bán đúng. | Không. AI chỉ tự gửi yêu cầu bổ sung ảnh đo đạc thực tế/tem mác (`yeu_cau_bang_chung`). | Có, nhưng đáng: người mua chờ nhân viên rà soát, đổi lại người bán đúng không bị hoàn oan. |
+| K4 (Tai nghe ANC shop sửa mô tả) | Có. Chặn được việc AI gọi `tu_choi_khieu_nai` do so nhầm với mô tả hiện tại. | Không. AI đối chiếu bản chụp lúc đặt hàng (snapshot) và chuyển nhân viên, không tự đóng khiếu nại. | Có, nhưng đáng: người mua chờ nhân viên đối chiếu lịch sử, đổi lại quyền lợi được bảo vệ. |
+| K6 (Giày fake, đòi khóa shop) | Có. Chặn được việc AI tự ý gọi `phat_shop` hoặc hứa suông dựa trên lời một phía. | Không. AI chỉ hướng dẫn trả hàng cho đơn và chuyển hồ sơ qua `chuyen_truong_nhom`. | Không. Người mua vẫn nhận ngay hướng dẫn thao tác trả hàng bảo vệ thời hạn, không bị bỏ lơ. |
 
-Tool tách bước:
-Tách soan_hoan_tien thành 2 bước: 
-1. chuan_bi_hoan_tien (AI phân tích, thu dữ liệu số tiền, tài khoản nhận,... ). 
-2. thuc_thi_hoan_tien (Nhân viên/Quản lý kiểm tra và bấm nút thực thi). |
+### 4.5 Tool tách bước
+
+Tách `soan_hoan_tien` thành 2 bước:
+
+1. `chuan_bi_hoan_tien` (AI phân tích, thu dữ liệu số tiền, tài khoản nhận,... ). 
+2. `thuc_thi_hoan_tien` (Nhân viên/Quản lý kiểm tra và bấm nút thực thi).
+
+Lý do: AI soạn sẵn dự thảo (Draft) để nhân viên chỉ cần bấm duyệt thay vì phải gõ lại từ đầu, tối ưu hóa thời gian xử lý của con người, trong khi việc chuyển tiền vẫn do người quyết.
+
+### 4.6 Mức tự chủ đã đổi lời hứa với người dùng
+
+Vì `soan_hoan_tien` ở mức cần người duyệt, lời hứa với người mua đổi từ "AI hoàn tiền cho bạn ngay" thành "AI chuẩn bị hồ sơ, nhân viên Shopee duyệt trong 24 giờ". Trợ lý không bao giờ nói "đã hoàn tiền" khi nhân viên chưa duyệt.
+
 ## §5. Prototype  (chặng 5)
 
 ## §6. Tốt là gì  (chặng 6 — nhẹ, bỏ được nếu thiếu giờ)
